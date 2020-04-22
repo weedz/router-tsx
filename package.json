@@ -1,0 +1,34 @@
+{
+  "name": "router-tsx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "microbundle src/index.tsx -o dist/index.js --external router,preact",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weedz/router-tsx.git"
+  },
+  "keywords": [],
+  "author": "Linus Björklund",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weedz/router-tsx/issues"
+  },
+  "homepage": "https://github.com/weedz/router-tsx#readme",
+  "dependencies": {
+    "router": "git+https://github.com/weedz/router.git"
+  },
+  "devDependencies": {
+    "microbundle": "^0.12.0-next.8",
+    "preact": "^10.4.1"
+  }
+}

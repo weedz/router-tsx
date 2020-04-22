@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "module": "ESNext",
+      "strict": true,
+      "jsx": "react",
+      "jsxFactory": "h",
+      "sourceMap": true,
+      "outDir": "dist",
+      "moduleResolution": "node"
+    },
+    "include": [
+      "src/**/*"
+    ]
+  }
