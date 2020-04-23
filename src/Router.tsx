@@ -10,6 +10,7 @@ export interface RoutableProps {
 }
 
 export interface RouterProps extends RoutableProps {
+    url?: string;
     // TODO: this should just be VNode<RoutableProps>[] but TypeScript can't infer
     // that type when typechecking against Component props. Using any as a workaround..
     children: VNode<RoutableProps>[] | any[] // must not render Router with an empty list of children
@@ -39,9 +40,16 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
             }
         }
 
+        if (this.props.url && !currentUrl) {
+            currentUrl = this.props.url
+        }
+
         this.state = {
             default: defaultChild,
         };
+        if (currentUrl && currentUrl !== defaultChild.path) {
+            this.setRoute(currentUrl);
+        }
     }
     componentWillUnmount() {
         routers = routers.filter(router => router !== this);
@@ -69,16 +77,19 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
     }
 }
 
+export function routeTo(url: string) {
+    for (const route of routers) {
+        if (route.setRoute(url)) {
+            currentUrl = url;
+            break;
+        }
+    }
+}
 function routeFromLink(e: HTMLAnchorElement) {
     if (!e) {
         return;
     }
-    currentUrl = e.pathname;
-    for (const route of routers) {
-        if (route.setRoute(e.pathname)) {
-            break;
-        }
-    }
+    routeTo(e.pathname);
 }
 export function getCurrentUrl() {
     return currentUrl;
