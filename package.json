@@ -11,6 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "microbundle src/index.tsx -o dist/index.js --external router,preact",
+    "dev": "microbundle --watch src/index.tsx -o dist/index.js --external router,preact",
     "prepare": "npm run build"
   },
   "repository": {
