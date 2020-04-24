@@ -26,7 +26,7 @@ export interface RouterProps extends RoutableProps {
 
 interface RouterState {
     active?: VNode<RoutableProps>;
-    props?: any;
+    props: any;
     default: VNode<RoutableProps>;
     url?: string;
 }
@@ -42,9 +42,9 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
         this.router = new Router();
         let defaultChild;
         for (const child of this.props.children) {
-            this.router.set("GET", child.props.path || "/", child);
+            const route = this.router.set("GET", child.props.path || "/", child);
             if (child.props.default) {
-                defaultChild = child;
+                defaultChild = route.callback;
             }
         }
 
@@ -53,11 +53,13 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
         }
 
         this.state = {
+            active: defaultChild,
             default: defaultChild,
+            props: {},
         };
-        if (currentUrl && currentUrl !== defaultChild.path) {
-            this.setRoute(currentUrl);
-        }
+    }
+    componentDidMount() {
+        routeTo(currentUrl);
     }
     componentWillUnmount() {
         routers = routers.filter(router => router !== this);
@@ -65,11 +67,13 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
     setRoute(url: string) {
         const route = this.router.find(url, "GET");
         if (route) {
-            this.setState({
-                url,
-                active: route.callback,
-                props: route.params,
-            });
+            if (this.state.active !== route.callback || !compareParams(this.state.props, route.params)) {
+                this.setState({
+                    url,
+                    active: route.callback,
+                    props: route.params,
+                });
+            }
             return true;
         } else {
             // TODO: render default??
@@ -80,7 +84,8 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
         const current: VNode<RoutableProps> = this.state.active || this.state.default;
         
         if (current) {
-            return cloneElement(current, Object.assign(this.state.props || {}, {url: this.state.url}));
+            // return cloneElement(current, Object.assign(this.state.props, {url: this.state.url}));
+            return cloneElement(current, this.state.props);
         }
     }
 }
@@ -115,4 +120,13 @@ function handleLinkClick(e: any) {
 }
 export function StaticLink(props: preact.JSX.HTMLAttributes<HTMLAnchorElement>) {
     return createElement("a", Object.assign({ onClick: handleLinkClick}, props));
+}
+
+function compareParams(props: {[key:string]: string}, params: {[key:string]: string}) {
+    for (const key of Object.keys(props)) {
+        if (params[key] !== props[key]) {
+            return false;
+        }
+    }
+    return true;
 }
