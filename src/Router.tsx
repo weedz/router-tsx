@@ -3,6 +3,14 @@ import { h, Component, VNode, cloneElement, createElement } from "preact";
 
 let currentUrl = "";
 let routers: RouterComponent[] = [];
+let subscribers: Function[] = [];
+
+export function subscribe(cb: Function) {
+    subscribers.push(cb);
+    return () => {
+        subscribers = subscribers.slice(subscribers.indexOf(cb)>>>0, 1);
+    };
+}
 
 export interface RoutableProps {
     path?: string;
@@ -83,6 +91,9 @@ export function routeTo(url: string) {
             currentUrl = url;
             break;
         }
+    }
+    for (const listener of subscribers) {
+        listener(url);
     }
 }
 function routeFromLink(e: HTMLAnchorElement) {
