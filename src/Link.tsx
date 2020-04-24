@@ -1,15 +1,29 @@
-import { StaticLink, getCurrentUrl } from "./Router";
-import { h } from "preact";
+import { StaticLink, subscribe } from "./Router";
+import { h, Component } from "preact";
 
-export function Link(props: {activeClassName?: string} & preact.JSX.HTMLAttributes<HTMLAnchorElement>) {
-    let url = getCurrentUrl();
-    let path = url && url.replace(/\?.+$/,'');
-    const classes = props.className ? [props.className] : [];
-    if (props.activeClassName) {
-        if (path === props.href) {
-            classes.push(props.activeClassName);
-        }
-        delete props.activeClassName;
+type Props = {activeClassName: string} & preact.JSX.HTMLAttributes<HTMLAnchorElement>;
+
+export class Link extends Component<Props> {
+    active: boolean = false;
+    unsubscribe?: Function;
+    constructor() {
+        super();
+        this.unsubscribe = subscribe(this.update);
     }
-    return <StaticLink {...props} className={classes.join(" ")} />
+    componentWillUnmount() {
+        this.unsubscribe && this.unsubscribe();
+    }
+    update = (url: string) => {
+        let path = url && url.replace(/\?.+$/,'');
+        this.active = path === this.props.href
+
+        this.setState({});
+    }
+    render() {
+        let classes = this.props.className || "";
+        if (this.active) {
+            classes += classes ? ` ${this.props.activeClassName}` : this.props.activeClassName;
+        }
+        return <StaticLink {...this.props} className={classes} />
+    }
 }

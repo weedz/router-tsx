@@ -8,7 +8,7 @@ let subscribers: Function[] = [];
 export function subscribe(cb: Function) {
     subscribers.push(cb);
     return () => {
-        subscribers = subscribers.slice(subscribers.indexOf(cb)>>>0, 1);
+        subscribers.splice(subscribers.indexOf(cb)>>>0, 1);
     };
 }
 
