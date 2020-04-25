@@ -35,9 +35,6 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
     router: Router;
     constructor(props: RouterProps) {
         super(props);
-        if (!Array.isArray(this.props.children) || !this.props.children.length) {
-            throw Error("RouterComponent must have atleast one child");
-        }
         routers.push(this);
         this.router = new Router();
         let defaultChild;
@@ -62,18 +59,16 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
         routeTo(currentUrl);
     }
     componentWillUnmount() {
-        routers = routers.filter(router => router !== this);
+        routers.splice(routers.indexOf(this)>>>0, 1)
     }
     setRoute(url: string) {
         const route = this.router.find(url, "GET");
         if (route) {
-            if (this.state.active !== route.callback || !compareParams(this.state.props, route.params)) {
-                this.setState({
-                    url,
-                    active: route.callback,
-                    props: route.params,
-                });
-            }
+            this.setState({
+                url,
+                active: route.callback,
+                props: route.params,
+            });
             return true;
         } else {
             // TODO: render default??
@@ -84,8 +79,7 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
         const current: VNode<RoutableProps> = this.state.active || this.state.default;
         
         if (current) {
-            // return cloneElement(current, Object.assign(this.state.props, {url: this.state.url}));
-            return cloneElement(current, this.state.props);
+            return cloneElement(current, Object.assign({}, this.state.props, {url: this.state.url}));
         }
     }
 }
@@ -120,13 +114,4 @@ function handleLinkClick(e: any) {
 }
 export function StaticLink(props: preact.JSX.HTMLAttributes<HTMLAnchorElement>) {
     return createElement("a", Object.assign({ onClick: handleLinkClick}, props));
-}
-
-function compareParams(props: {[key:string]: string}, params: {[key:string]: string}) {
-    for (const key of Object.keys(props)) {
-        if (params[key] !== props[key]) {
-            return false;
-        }
-    }
-    return true;
 }
