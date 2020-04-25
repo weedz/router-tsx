@@ -12,12 +12,12 @@ export function subscribe(cb: Function) {
     };
 }
 
-export interface RoutableProps {
+export type RoutableProps<T = {}> = T | T & {
     path?: string;
     default?: boolean;
-}
+};
 
-export interface RouterProps extends RoutableProps {
+export interface RouterProps {
     url?: string;
     // TODO: this should just be VNode<RoutableProps>[] but TypeScript can't infer
     // that type when typechecking against Component props. Using any as a workaround..
@@ -76,7 +76,7 @@ export class RouterComponent extends Component<RouterProps, RouterState> {
         }
     }
     render() {
-        const current: VNode<RoutableProps> = this.state.active || this.state.default;
+        const current = this.state.active || this.state.default;
         
         if (current) {
             return cloneElement(current, Object.assign({}, this.state.props, {url: this.state.url}));
