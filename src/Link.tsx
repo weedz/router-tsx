@@ -1,9 +1,9 @@
-import { StaticLink, subscribe } from "./Router";
+import { StaticLink, subscribe, getCurrentUrl } from "./Router";
 import { h, Component } from "preact";
 
 type Props = {activeClassName: string} & preact.JSX.HTMLAttributes<HTMLAnchorElement>;
 
-export class Link extends Component<Props, {active: boolean}> {
+export class Link extends Component<Props> {
     unsubscribe?: Function;
     activeClass: string;
     constructor(props: Props) {
@@ -11,24 +11,19 @@ export class Link extends Component<Props, {active: boolean}> {
         this.unsubscribe = subscribe(this.update);
         this.activeClass = props.activeClassName;
         delete props.activeClassName;
-        this.state = {
-            active: false
-        };
     }
     componentWillUnmount() {
         this.unsubscribe && this.unsubscribe();
     }
-    update = (url: string) => {
-        let path = url && url.replace(/\?.+$/,'');
-        const newState = path === this.props.href;
-
-        if (this.state.active !== newState) {
-            this.setState({active: newState});
-        }
+    update = (_: string) => {
+        this.setState({});
     }
     render(props: Props) {
         let classes = this.props.className || "";
-        if (this.state.active) {
+
+        let path = getCurrentUrl().replace(/\?.+$/, "");
+
+        if (path === this.props.href) {
             classes += classes ? ` ${this.activeClass}` : this.activeClass;
         }
         return <StaticLink {...props} className={classes} />
