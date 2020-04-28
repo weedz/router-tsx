@@ -1,6 +1,6 @@
 {
-  "name": "router-tsx",
-  "version": "1.0.0",
+  "name": "@weedz/router-tsx",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -18,6 +18,9 @@
     "type": "git",
     "url": "git+https://github.com/weedz/router-tsx.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "keywords": [],
   "author": "Linus Björklund",
   "license": "MIT",
@@ -26,7 +29,7 @@
   },
   "homepage": "https://github.com/weedz/router-tsx#readme",
   "dependencies": {
-    "router": "git+https://github.com/weedz/router.git"
+    "@weedz/router": "^1.0.0"
   },
   "devDependencies": {
     "microbundle": "^0.12.0-next.8",

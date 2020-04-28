@@ -1,4 +1,4 @@
-import { Router } from "router";
+import { Router } from "@weedz/router";
 import { h, Component, VNode, cloneElement, createElement } from "preact";
 
 let currentUrl = "";
