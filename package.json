@@ -34,5 +34,8 @@
   "devDependencies": {
     "microbundle": "^0.12.0-next.8",
     "preact": "^10.4.1"
+  },
+  "peerDependencies": {
+    "preact": ">=10"
   }
 }
