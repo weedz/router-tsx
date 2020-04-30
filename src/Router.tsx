@@ -1,4 +1,4 @@
-import { Router } from "@weedz/router";
+import { Router } from "@weedzcokie/router";
 import { h, Component, VNode, cloneElement, createElement } from "preact";
 
 let currentUrl = "";
@@ -19,8 +19,6 @@ export type RoutableProps<T = {}> = T | T & {
 
 export interface RouterProps {
     url?: string;
-    // TODO: this should just be VNode<RoutableProps>[] but TypeScript can't infer
-    // that type when typechecking against Component props. Using any as a workaround..
     children: VNode<RoutableProps>[] | any[] // must not render Router with an empty list of children
 }
 
@@ -105,7 +103,6 @@ export function getCurrentUrl() {
     return currentUrl;
 }
 
-// Shit out of luck for event types...
 function handleLinkClick(e: any) {
     if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.button!==0) return;
     e.currentTarget && routeFromLink(e.currentTarget);

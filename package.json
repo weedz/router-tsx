@@ -1,6 +1,6 @@
 {
-  "name": "@weedz/router-tsx",
-  "version": "0.1.0",
+  "name": "@weedzcokie/router-tsx",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -10,16 +10,13 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "microbundle src/index.tsx -o dist/index.js --external router,preact",
-    "dev": "microbundle --watch src/index.tsx -o dist/index.js --external router,preact",
+    "build": "microbundle src/index.tsx -o dist/index.js --external preact,@weedzcokie/router",
+    "dev": "microbundle --watch src/index.tsx -o dist/index.js --external preact,@weedzcokie/router",
     "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/weedz/router-tsx.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "keywords": [],
   "author": "Linus Björklund",
@@ -29,7 +26,7 @@
   },
   "homepage": "https://github.com/weedz/router-tsx#readme",
   "dependencies": {
-    "@weedz/router": "^1.0.0"
+    "@weedzcokie/router": "^1.0.0"
   },
   "devDependencies": {
     "microbundle": "^0.12.0-next.8",

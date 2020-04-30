@@ -8,12 +8,14 @@ export class Link extends Component<Props> {
     activeClass: string;
     constructor(props: Props) {
         super(props);
-        this.unsubscribe = subscribe(this.update);
         this.activeClass = props.activeClassName;
         delete props.activeClassName;
     }
     componentWillUnmount() {
         this.unsubscribe && this.unsubscribe();
+    }
+    componentDidMount() {
+        this.unsubscribe = subscribe(this.update);
     }
     update = (_: string) => {
         this.setState({});
@@ -21,7 +23,7 @@ export class Link extends Component<Props> {
     render(props: Props) {
         let classes = this.props.className || "";
 
-        let path = getCurrentUrl().replace(/\?.+$/, "");
+        const path = getCurrentUrl().replace(/\?.+$/, "");
 
         if (path === this.props.href) {
             classes += classes ? ` ${this.activeClass}` : this.activeClass;
