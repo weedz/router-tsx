@@ -1,6 +1,6 @@
 {
   "name": "@weedzcokie/router-tsx",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -18,7 +18,12 @@
     "type": "git",
     "url": "git+https://github.com/weedz/router-tsx.git"
   },
-  "keywords": [],
+  "keywords": [
+    "router",
+    "preact",
+    "typescript",
+    "tsc"
+  ],
   "author": "Linus Björklund",
   "license": "MIT",
   "bugs": {
