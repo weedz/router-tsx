@@ -94,10 +94,8 @@ export function routeTo(url: string) {
     }
 }
 function routeFromLink(e: HTMLAnchorElement) {
-    if (!e) {
-        return;
-    }
-    routeTo(e.pathname);
+    const href = e.getAttribute("href");
+    href && routeTo(href);
 }
 export function getCurrentUrl() {
     return currentUrl;
@@ -105,10 +103,10 @@ export function getCurrentUrl() {
 
 function handleLinkClick(e: any) {
     if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.button!==0) return;
-    e.currentTarget && routeFromLink(e.currentTarget);
     e.preventDefault();
+    e.currentTarget && routeFromLink(e.currentTarget);
     return false;
 }
 export function StaticLink(props: preact.JSX.HTMLAttributes<HTMLAnchorElement>) {
-    return createElement("a", Object.assign({ onClick: handleLinkClick}, props));
+    return <a {...props} onClick={handleLinkClick} />;
 }
