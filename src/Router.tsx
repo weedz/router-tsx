@@ -12,7 +12,7 @@ export function subscribe(cb: Function) {
     };
 }
 
-export type RoutableProps<T = {}> = T | T & {
+export type RoutableProps<T = {}> = T & {
     path?: string;
     default?: boolean;
 };
