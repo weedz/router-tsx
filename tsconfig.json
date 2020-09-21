@@ -1,14 +1,17 @@
 {
-    "compilerOptions": {
-      "module": "ESNext",
-      "strict": true,
-      "jsx": "react",
-      "jsxFactory": "h",
-      "sourceMap": true,
-      "outDir": "dist",
-      "moduleResolution": "node"
-    },
-    "include": [
-      "src/**/*"
-    ]
-  }
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2019",
+    "strict": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
